@@ -91,6 +91,8 @@ Calling this routine makes it such that a process can raise the number of ticket
 ### Priority Based Scheduler
 
 Instead of time, we compare the priorities. Static priority (default to 60) can be changed (explained below) by the user. Dynamic priority is calculated and compared:
+First compare the priority , if there is a tie then compare the no of times the process has been scheduler , if still there is a tie break it using creating time (process with lower start
+times should be scheduled further).
 
 ```c
 dynamic_pr = max(0, min(100, static_pr - niceness + 5))
@@ -101,7 +103,7 @@ where niceness is defined as
 10*(ntime)/(ntime+rtime)
 ```
 
-here ntime (nap time) and rtime (run time) are the ticks spent in sleeping state since the last call/running state in total, stored in proc->ntime and proc->rtime.
+here ntime (nap time) are the ticks spent by the process slepping since it was last scheduled and rtime (run time) are the ticks spent in running state since it was last scheduled ,  stored in proc->ntime and proc->rtime.
 
 #### Set Priority
 
@@ -110,7 +112,10 @@ User program:
 $ setpriority [priority] [pid]
 ```
 
-which calls the `set_priority` system call which sets the static priority to the given value and resets ntime to 0 and niceness to 5.
+which calls the `set_priority` system call which sets the static priority to the given value.
+The system call returns the old Static Priority of the process. In case the priority of
+the process increases(the value is lower than before), then rescheduling should be
+done.). This resets the niceness to 5 as well.
 
 ```c
 int set_priority(int new_priority, int proc_id);
