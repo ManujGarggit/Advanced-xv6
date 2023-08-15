@@ -135,9 +135,12 @@ The time slices for the queues are
 - d. For priority 3: 8 timer ticks
 - e. For priority 4: 16 timer ticks
 
-On the initiation of a process, push it to the end of the highest priority queue.
-You should always run the processes that are in the highest priority queue that is
-not empty
+- On the initiation of a process, push it to the end of the highest priority queue.
+- You should always run the processes that are in the highest priority queue that is
+not empty.
+- If a process is being runned in lower queue it should be preempted if a process enters at higher priority queue.
+-  If the process uses the complete time slice assigned for its current priority queue, it
+is preempted and inserted at the end of the next lower level queue.
 
 If a process voluntarily relinquishes control of the CPU it leaves the queuing network, and when the process becomes ready again after the I/O, it is
 inserted at the tail of the same queue, from which it is relinquished earlier
