@@ -129,11 +129,11 @@ I/O bound and interactive processes in the higher priority queues.
 Aging is implemented to prevent starvation.
 
 The time slices for the queues are 
-a. For priority 0: 1 timer tick
-b. For priority 1: 2 timer ticks
-c. For priority 2: 4 timer ticks
-d. For priority 3: 8 timer ticks
-e. For priority 4: 16 timer ticks
+- a. For priority 0: 1 timer tick
+- b. For priority 1: 2 timer ticks
+- c. For priority 2: 4 timer ticks
+- d. For priority 3: 8 timer ticks
+- e. For priority 4: 16 timer ticks
 
 On the initiation of a process, push it to the end of the highest priority queue.
 You should always run the processes that are in the highest priority queue that is
