@@ -123,7 +123,21 @@ int set_priority(int new_priority, int proc_id);
 
 ### Multi Level Feedback Queue
 
-It allows processes to move between different priority queues based on their behavior and CPU bursts. Aging is implemented to prevent starvation.
+It allows processes to move between different priority queues based on their behavior and CPU bursts. 
+If a process uses too much CPU time, it is pushed to a lower priority queue, leaving
+I/O bound and interactive processes in the higher priority queues.
+Aging is implemented to prevent starvation.
+
+The time slices for the queues are 
+a. For priority 0: 1 timer tick
+b. For priority 1: 2 timer ticks
+c. For priority 2: 4 timer ticks
+d. For priority 3: 8 timer ticks
+e. For priority 4: 16 timer ticks
+
+On the initiation of a process, push it to the end of the highest priority queue.
+You should always run the processes that are in the highest priority queue that is
+not empty
 
 If a process voluntarily relinquishes control of the CPU it leaves the queuing network, and when the process becomes ready again after the I/O, it is
 inserted at the tail of the same queue, from which it is relinquished earlier
